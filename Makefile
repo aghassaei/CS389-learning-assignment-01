@@ -1,18 +1,32 @@
-  # the compiler: gcc for C program, define as g++ for C++
-  CC = gcc
+  # Compiler
+  #CC = gcc
 
-  # compiler flags:
-  #  -g    adds debugging information to the executable file
-  #  -Wall turns on most, but not all, compiler warnings
-  CFLAGS  = -g -Wall
+  # Flags
+  #CFLAGS  = -g -Wall -Werror -Wextra -pedantic -O0
 
-  # the build target executable:
-  TARGET = myprog
+  # Target executable
+  #TARGET = executable
 
-  all: $(TARGET)
+  #all: $(TARGET)
 
-  $(TARGET): $(TARGET).c
-  	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).c
+  #$(TARGET): $(TARGET).c
+  #	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).c
 
-  clean:
-  	$(RM) $(TARGET)
+  #clean:
+  #	$(RM) $(TARGET)
+
+CXX=gcc
+CXXFLAGS=-Wall -Wextra -pedantic -Werror -O0 -g
+LDFLAGS=$(CXXFLAGS)
+OBJ=$(SRC:.cc=.o)
+
+all:  makeit
+
+makeit: rand-int-mean.o
+    $(CXX) $(LDFLAGS) -o $@ $^
+
+%.o: %.cc %.hh
+    $(CXX) $(CXXFLAGS) $(OPTFLAGS) -c -o $@ $<
+
+clean:
+    rm -rf *.o makeit
